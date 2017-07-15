@@ -20,9 +20,11 @@ from sklearn.utils.testing import _get_func_name
 from sklearn.utils.testing import ignore_warnings
 from sklearn.utils.deprecation import _is_deprecated
 
-PUBLIC_MODULES = set(['sklearn.' + pckg[1]
-                      for pckg in walk_packages('sklearn.*')
-                      if not pckg[1].startswith('_')])
+PUBLIC_MODULES = set([pckg[1]
+                      for pckg in walk_packages(prefix='sklearn.',
+                                                path=sklearn.__path__)
+                      if not ("._" in pckg[1]
+                              or ".tests." in pckg[1])])
 
 # TODO Uncomment all modules and fix doc inconsistencies everywhere
 # The list of modules that are not tested for now
@@ -54,12 +56,12 @@ _DOCSTRING_IGNORES = [
 
 # Methods where y param should be ignored if y=None by default
 _METHODS_IGNORE_NONE_Y = [
-        'fit',
-        'score',
-        'fit_predict',
-        'fit_transform',
-        'partial_fit',
-        'predict'
+    'fit',
+    'score',
+    'fit_predict',
+    'fit_transform',
+    'partial_fit',
+    'predict'
 ]
 
 
